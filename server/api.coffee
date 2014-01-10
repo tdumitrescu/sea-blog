@@ -1,8 +1,9 @@
-data = require "./models"
+{Post} = require "./models"
 
 # GET
 exports.posts = (req, res) ->
-  res.json posts: ({id: i, title: post.title, text: "#{post.text[0..50]}..."} for post, i in data.posts)
+  Post.findAll().success (posts) ->
+    res.json posts: ({id: post.id, title: post.title, text: "#{post.text[0..50]}..."} for post in posts)
 
 exports.post = (req, res) ->
   id = req.params.id
