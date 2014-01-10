@@ -1,0 +1,9 @@
+exports.DBConfig =
+
+  development:
+    dbName:   "sea_blog_development"
+    user:     "user"
+    password: "password"
+    options:
+      dialect: "postgres"
+      port:    5432

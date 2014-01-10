@@ -17,3 +17,6 @@ test/test-results.xml
 
 # Bower stuff.
 bower_components/
+
+server/config/database.js
+server/config/database.coffee
