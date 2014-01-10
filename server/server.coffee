@@ -5,7 +5,9 @@
 express = require 'express'
 http    = require 'http'
 path    = require 'path'
-api     = require './api'
+
+db  = require "./db"
+api = require "./api"
 
 app = module.exports = express()
 
@@ -51,6 +53,7 @@ app.get '*', (req, res) -> res.sendfile "#{assetsPath}/index.html"
 #
 
 module.exports.startServer = (port, path, callback) ->
-  app.set 'port', port
-  http.createServer(app).listen port, ->
-    console.log "Express server listening on port #{port}"
+  db.init ->
+    app.set 'port', port
+    http.createServer(app).listen port, ->
+      console.log "Express server listening on port #{port}"

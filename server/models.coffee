@@ -1,25 +1,9 @@
-console.log "initing DB"
-
 Sequelize = require "sequelize"
-DBConfig  = (require "./config/database").DBConfig.development
+db        = require "./db"
 
-db = new Sequelize DBConfig.dbName, DBConfig.user, DBConfig.password, DBConfig.options
-
-db.authenticate().complete (err) ->
-  if err?
-    console.log "Unable to connect to database: #{err}"
-  else
-    console.log "Connected to DB"
-
-Post = db.define 'post',
+exports.Post = db.default().connection.define "post",
   title: Sequelize.STRING,
   text:  Sequelize.STRING
-
-db.sync().complete (err) ->
-  if err?
-    console.log "Unable to create posts table: #{err}"
-  else
-    console.log "Created posts table"
 
 # initialize our faux database
 exports.posts = 
