@@ -1,0 +1,5 @@
+#!/usr/bin/env coffee
+
+Path = require "path"
+
+require Path.join Path.resolve("."), "server", "seeds"
