@@ -6,13 +6,8 @@ exports.posts = (req, res) ->
     res.json posts: ({id: post.id, title: post.title, text: "#{post.text[0..50]}..."} for post in posts)
 
 exports.post = (req, res) ->
-  id = req.params.id
-  res.json(
-    if id >= 0 and id < data.posts.length
-      post: data.posts[id]
-    else
-      false
-  )
+  Post.find(req.params.id).success (post) ->
+    res.json if post? then {post: post} else false
 
 # POST
 exports.addPost = (req, res) ->
