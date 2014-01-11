@@ -6,3 +6,5 @@ An implementation of the [angular-express-coffee-blog](https://github.com/tdumit
 ## Setup
 
 - Create and fill in `server/config/database.coffee` or `server/config/database.js` on the example of `server/config/database.coffee.example`
+- Create database matching config in `database.coffee`
+- Seed database: `./script/seed`
