@@ -11,8 +11,9 @@ exports.post = (req, res) ->
 
 # POST
 exports.addPost = (req, res) ->
-  data.posts.push req.body
-  res.json req.body
+  pdata = req.body
+  Post.create({title: pdata.title, text: pdata.text}).success (post) ->
+    res.json post
 
 # PUT
 exports.editPost = (req, res) ->
