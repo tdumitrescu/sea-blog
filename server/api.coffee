@@ -2,7 +2,7 @@
 
 # GET
 exports.posts = (req, res) ->
-  Post.findAll().success (posts) ->
+  Post.findAll(order: 'id').success (posts) ->
     res.json posts: ({id: post.id, title: post.title, text: "#{post.text[0..50]}..."} for post in posts)
 
 exports.post = (req, res) ->
