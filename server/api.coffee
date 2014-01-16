@@ -17,14 +17,8 @@ exports.addPost = (req, res) ->
 
 # PUT
 exports.editPost = (req, res) ->
-  id = req.params.id
-  res.json(
-    if id >= 0 and id < data.posts.length
-      data.posts[id] = req.body
-      true
-    else
-      false
-  )
+  Post.find(req.params.id).success (post) ->
+    post.updateAttributes(req.body).success(-> res.json true).error(-> res.json false)
 
 # DELETE
 exports.deletePost = (req, res) ->
