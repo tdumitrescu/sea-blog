@@ -1,5 +1,9 @@
 {Post} = require "./models"
 
+loadPost = (req, res, success) ->
+  Post.find(req.params.id).success (post) ->
+    if post? then success(post) else notFound(res)
+
 notFound = (res) -> res.send 'Not found', 404
 
 # GET
@@ -8,11 +12,7 @@ exports.posts = (req, res) ->
     res.json posts: ({id: post.id, title: post.title, text: "#{post.text[0..50]}..."} for post in posts)
 
 exports.post = (req, res) ->
-  Post.find(req.params.id).success (post) ->
-    if post?
-      res.json post: post
-    else
-      notFound res
+  loadPost req, res, (post) -> res.json post: post
 
 # POST
 exports.addPost = (req, res) ->
@@ -22,16 +22,10 @@ exports.addPost = (req, res) ->
 
 # PUT
 exports.editPost = (req, res) ->
-  Post.find(req.params.id).success (post) ->
-    if post?
-      post.updateAttributes(req.body).success(-> res.json true).error(-> res.json false)
-    else
-      notFound res
+  loadPost req, res, (post) ->
+    post.updateAttributes(req.body).success(-> res.json true).error(-> res.json false)
 
 # DELETE
 exports.deletePost = (req, res) ->
-  Post.find(req.params.id).success (post) ->
-    if post?
-      post.destroy().success(-> res.json true).error(-> res.json false)
-    else
-      notFound res
+  loadPost req, res, (post) ->
+    post.destroy().success(-> res.json true).error(-> res.json false)
