@@ -12,13 +12,17 @@ class Connection
 
   @default: ->
     @_default ||= (
-      dbEnv = process.env.NODE_ENV || (
-          console.log "NODE_ENV not defined. Defaulting to 'development'."
-          "development"
-        )
+      dbEnv = @chooseEnv()
       envConfig = (require "./config/database").DBConfig[dbEnv] ||
         throw "No database configuration defined for environment '#{dbEnv}'."
       new Connection(envConfig))
+
+  @chooseEnv: ->
+    process.env.NODE_ENV = "test" if process.env.npm_lifecycle_event is "test"
+    process.env.NODE_ENV || (
+        console.log "NODE_ENV not defined. Defaulting to 'development'."
+        "development"
+      )
 
   @init: (success) ->
     @default().connection.sync().complete (err) ->
