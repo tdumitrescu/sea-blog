@@ -1,5 +1,7 @@
 {Post} = require "./models"
 
+notFound = (res) -> res.send 'Not found', 404
+
 # GET
 exports.posts = (req, res) ->
   Post.findAll(order: 'id').success (posts) ->
@@ -7,7 +9,10 @@ exports.posts = (req, res) ->
 
 exports.post = (req, res) ->
   Post.find(req.params.id).success (post) ->
-    res.json if post? then {post: post} else false
+    if post?
+      res.json post: post
+    else
+      notFound res
 
 # POST
 exports.addPost = (req, res) ->
@@ -21,7 +26,7 @@ exports.editPost = (req, res) ->
     if post?
       post.updateAttributes(req.body).success(-> res.json true).error(-> res.json false)
     else
-      res.send 'Not found', 404
+      notFound res
 
 # DELETE
 exports.deletePost = (req, res) ->
