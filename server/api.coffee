@@ -30,11 +30,8 @@ exports.editPost = (req, res) ->
 
 # DELETE
 exports.deletePost = (req, res) ->
-  id = req.params.id
-  res.json(
-    if id >= 0 and id < data.posts.length
-      data.posts.splice id, 1
-      true
+  Post.find(req.params.id).success (post) ->
+    if post?
+      post.destroy().success(-> res.json true).error(-> res.json false)
     else
-      false
-  )
+      notFound res
