@@ -11,7 +11,14 @@ class Connection
         console.log "Connected to #{attrs.dbName}"
 
   @default: ->
-    @_default ||= new Connection((require "./config/database").DBConfig.development)
+    @_default ||= (
+      dbEnv = process.env.NODE_ENV || (
+          console.log "NODE_ENV not defined. Defaulting to 'development'."
+          "development"
+        )
+      envConfig = (require "./config/database").DBConfig[dbEnv] ||
+        throw "No database configuration defined for environment '#{dbEnv}'."
+      new Connection(envConfig))
 
   @init: (success) ->
     @default().connection.sync().complete (err) ->
