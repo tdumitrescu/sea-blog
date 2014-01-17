@@ -18,7 +18,10 @@ exports.addPost = (req, res) ->
 # PUT
 exports.editPost = (req, res) ->
   Post.find(req.params.id).success (post) ->
-    post.updateAttributes(req.body).success(-> res.json true).error(-> res.json false)
+    if post?
+      post.updateAttributes(req.body).success(-> res.json true).error(-> res.json false)
+    else
+      res.send 'Not found', 404
 
 # DELETE
 exports.deletePost = (req, res) ->
