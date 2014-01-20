@@ -57,3 +57,4 @@ module.exports.startServer = (port, path, callback) ->
     app.set 'port', port
     http.createServer(app).listen port, ->
       console.log "Express server listening on port #{port}"
+      callback()
