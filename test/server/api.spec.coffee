@@ -8,19 +8,28 @@ process.env.NODE_ENV = "test"
 
 serverPath = path.join(__dirname, '..', '..', 'server')
 server     = require "#{serverPath}/server"
+db         = require "#{serverPath}/db"
 {Post}     = require "#{serverPath}/models"
 PORT       = 3434
 API_BASE   = "http://localhost:#{PORT}/api"
 
 before (done) -> server.startServer PORT, '/', done
 
+beforeEach (done) -> db.init(done)
+
 describe "server API", ->
-  posts = null
+  posts   = null
+  exPosts = [
+    {title: "bla1", text: "Lorem ipsum" },
+    {title: "bla2", text: "Sed egestas" },
+    {title: "bla3", text: "Another post"}
+  ]
 
   beforeEach (done) ->
-    Post.findAll().success (p) ->
-      posts = p
-      done()
+    Post.bulkCreate(exPosts).success ->
+      Post.findAll().success (p) ->
+        posts = p
+        done()
 
   describe "GET /posts", ->
     getPosts = (callback) -> request "#{API_BASE}/posts", callback
@@ -30,15 +39,10 @@ describe "server API", ->
         expect(JSON.parse(body).posts).to.have.length(posts.length)
         done()
 
-    # it "creates an ID for each post", (done) ->
-    #   getPosts (error, response, body) ->
-    #     expect(JSON.parse(body).posts[0].id).to.eql(0)
-    #     done()
-
-    # it "includes the title of each post", (done) ->
-    #   getPosts (error, response, body) ->
-    #     expect(JSON.parse(body).posts[0].title).to.eql(posts[0].title)
-    #     done()
+    it "includes the title of each post", (done) ->
+      getPosts (error, response, body) ->
+        expect(JSON.parse(body).posts[0].title).to.eql(posts[0].title)
+        done()
 
   # describe "POST /post", ->
   #   postData = {title: 'bla', text: 'blablabla'}
