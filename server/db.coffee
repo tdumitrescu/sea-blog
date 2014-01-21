@@ -29,10 +29,12 @@ class Connection
       )
 
   @init: (success) ->
-    @default().connection.sync(force: @testEnv).complete (err) ->
+    @default().sync().complete (err) ->
       if err?
         console.log "Unable to sync DB: #{err}"
       else
         success()
+
+  sync: -> @connection.sync(force: @testEnv)
 
 module.exports = Connection
