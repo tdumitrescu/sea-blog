@@ -16,4 +16,6 @@ install:
   - ./node_modules/.bin/bower install
 
 before_script:
+  - psql -c 'create database sea_blog_test;' -U postgres
+  - cp server/config/database.coffee.example server/config/database.coffee
   - "npm start &" # start a Web server
