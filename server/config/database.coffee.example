@@ -2,7 +2,7 @@ exports.DBConfig =
 
   development:
     dbName:   "sea_blog_development"
-    user:     "user"
+    user:     "postgres"
     password: "password"
     options:
       dialect: "postgres"
@@ -10,8 +10,8 @@ exports.DBConfig =
 
   test:
     dbName:   "sea_blog_test"
-    user:     "user"
-    password: "password"
+    user:     "postgres"
+    password: null
     options:
       dialect: "postgres"
       port:    5432
