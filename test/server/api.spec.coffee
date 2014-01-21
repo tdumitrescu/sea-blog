@@ -41,7 +41,13 @@ describe "server API", ->
 
     it "includes the title of each post", (done) ->
       getPosts (error, response, body) ->
-        expect(JSON.parse(body).posts[0].title).to.eql(posts[0].title)
+        expect(JSON.parse(body).posts[0].title).to.eql(exPosts[0].title)
+        done()
+
+    it "orders posts by ID", (done) ->
+      getPosts (error, response, body) ->
+        postIds = (p.id for p in JSON.parse(body).posts)
+        expect(postIds).to.eql(postIds.sort())
         done()
 
   # describe "POST /post", ->
