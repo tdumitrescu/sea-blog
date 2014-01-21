@@ -7,3 +7,11 @@ exports.DBConfig =
     options:
       dialect: "postgres"
       port:    5432
+
+  test:
+    dbName:   "sea_blog_test"
+    user:     "user"
+    password: "password"
+    options:
+      dialect: "postgres"
+      port:    5432
