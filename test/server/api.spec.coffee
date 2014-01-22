@@ -26,7 +26,7 @@ describe "server API", ->
   ]
 
   loadPosts = (done) ->
-    Post.findAll().success (p) ->
+    Post.findAll(order: 'id').success (p) ->
       posts = p
       done()
 
@@ -69,29 +69,31 @@ describe "server API", ->
           expect(post.text).to.eql  postData.text
           done()
 
-  # describe "PUT /post/:id", ->
-  #   putData = {title: 'bla', text: 'blablabla'}
-  #   postId = posts.length - 1
-  #   putPost = (callback, id = postId) ->
-  #     request.put "#{API_BASE}/post/#{id}", form: putData, callback
+  describe "PUT /post/:id", ->
+    putData = {title: "new title", text: "blablabla"}
+    putPost = (callback, id = null) ->
+      id ||= posts[0].id
+      request.put "#{API_BASE}/post/#{id}", form: putData, callback
 
-  #   it "does not create a new post", (done) ->
-  #     postLengthBefore = posts.length
-  #     putPost (error, response, body) ->
-  #       expect(posts).to.have.length(postLengthBefore)
-  #       done()
+    it "does not create a new post", (done) ->
+      postLengthBefore = posts.length
+      putPost (error, response, body) ->
+        loadPosts ->
+          expect(posts).to.have.length postLengthBefore
+          done()
 
-  #   it "replaces the given post's data", (done) ->
-  #     putPost (error, response, body) ->
-  #       expect(posts[postId].title).to.eql(putData.title)
-  #       expect(posts[postId].text).to.eql(putData.text)
-  #       done()
+    it "replaces the given post's data", (done) ->
+      putPost (error, response, body) ->
+        loadPosts ->
+          expect(posts[0].title).to.eql putData.title
+          expect(posts[0].text).to.eql  putData.text
+          done()
 
-  #   it "returns false for invalid IDs", (done) ->
-  #     putCallback = (error, response, body) ->
-  #       expect(JSON.parse(body)).to.be(false)
-  #       done()
-  #     putPost putCallback, -5
+    it "404s for invalid IDs", (done) ->
+      putCallback = (error, response, body) ->
+        expect(response.statusCode).to.eql 404
+        done()
+      putPost putCallback, -5
 
   # describe "DELETE /post/:id", ->
   #   postId = 0
