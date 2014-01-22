@@ -25,6 +25,11 @@ describe "server API", ->
     {title: "bla3", text: "Another post"}
   ]
 
+  assertStatus = (statusCode, done, sendRequest) ->
+    sendRequest (error, response, body) ->
+      expect(response.statusCode).to.be statusCode
+      done()
+
   loadPosts = (done) ->
     Post.findAll(order: 'id').success (p) ->
       posts = p
@@ -91,10 +96,7 @@ describe "server API", ->
           done()
 
     it "404s for invalid IDs", (done) ->
-      putCallback = (error, response, body) ->
-        expect(response.statusCode).to.be 404
-        done()
-      putPost putCallback, -5
+      assertStatus 404, done, (cb) -> putPost cb, -5
 
   describe "DELETE /post/:id", ->
     postIndex = 1
@@ -119,7 +121,4 @@ describe "server API", ->
           done()
 
     it "404s for invalid IDs", (done) ->
-      deleteCallback = (error, response, body) ->
-        expect(response.statusCode).to.be 404
-        done()
-      deletePost deleteCallback, -5
+      assertStatus 404, done, (cb) -> deletePost cb, "blargh"
