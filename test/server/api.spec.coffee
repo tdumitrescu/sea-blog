@@ -92,28 +92,34 @@ describe "server API", ->
 
     it "404s for invalid IDs", (done) ->
       putCallback = (error, response, body) ->
-        expect(response.statusCode).to.eql 404
+        expect(response.statusCode).to.be 404
         done()
       putPost putCallback, -5
 
-  # describe "DELETE /post/:id", ->
-  #   postId = 0
-  #   deletePost = (callback, id = postId) -> request.del "#{API_BASE}/post/#{id}", callback
+  describe "DELETE /post/:id", ->
+    postIndex = 1
+    deletePost = (callback, id = null) ->
+      id ||= posts[postIndex].id
+      request.del "#{API_BASE}/post/#{id}", callback
 
-  #   it "deletes a post", (done) ->
-  #     postLengthBefore = posts.length
-  #     deletePost (error, response, body) ->
-  #       expect(posts).to.have.length(postLengthBefore - 1)
-  #       done()
+    it "deletes the correct post", (done) ->
+      postID = posts[postIndex].id
+      Post.find(postID).success (post) ->
+        expect(post).not.to.be null
+        deletePost (error, response, body) ->
+          Post.find(postID).success (post) ->
+            expect(post).to.be null
+            done()
 
-  #   it "shifts the other posts back", (done) ->
-  #     shiftedPost = posts[postId + 1]
-  #     deletePost (error, response, body) ->
-  #       expect(posts[postId]).to.eql(shiftedPost)
-  #       done()
+    it "deletes only one post", (done) ->
+      postLengthBefore = posts.length
+      deletePost (error, response, body) ->
+        loadPosts ->
+          expect(posts).to.have.length(postLengthBefore - 1)
+          done()
 
-  #   it "returns false for invalid IDs", (done) ->
-  #     deleteCallback = (error, response, body) ->
-  #       expect(JSON.parse(body)).to.be(false)
-  #       done()
-  #     deletePost deleteCallback, -5
+    it "404s for invalid IDs", (done) ->
+      deleteCallback = (error, response, body) ->
+        expect(response.statusCode).to.be 404
+        done()
+      deletePost deleteCallback, -5
