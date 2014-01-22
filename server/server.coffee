@@ -44,6 +44,11 @@ app.put    "/api/post/:id", api.editPost
 app.delete "/api/post/:id", api.deletePost
 app.get    "/api/*",        (req, res) -> res.send 'Not found', 404
 
+if process.env.NODE_ENV is "test"
+  specHelper = require "../test/e2e/specHelper"
+  app.get "/_spec/initdb", specHelper.initDB
+app.get "/_spec/*", (req, res) -> res.send 'Not found', 404
+
 # serve index for all other routes
 app.get '*', (req, res) -> res.sendfile "#{assetsPath}/index.html"
 
