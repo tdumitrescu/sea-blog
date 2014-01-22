@@ -70,9 +70,10 @@ describe "server API", ->
           done()
 
   describe "PUT /post/:id", ->
-    putData = {title: "new title", text: "blablabla"}
+    putData   = {title: "new title", text: "blablabla"}
+    postIndex = 1
     putPost = (callback, id = null) ->
-      id ||= posts[0].id
+      id ||= posts[postIndex].id
       request.put "#{API_BASE}/post/#{id}", form: putData, callback
 
     it "does not create a new post", (done) ->
@@ -85,8 +86,8 @@ describe "server API", ->
     it "replaces the given post's data", (done) ->
       putPost (error, response, body) ->
         loadPosts ->
-          expect(posts[0].title).to.eql putData.title
-          expect(posts[0].text).to.eql  putData.text
+          expect(posts[postIndex].title).to.eql putData.title
+          expect(posts[postIndex].text).to.eql  putData.text
           done()
 
     it "404s for invalid IDs", (done) ->
