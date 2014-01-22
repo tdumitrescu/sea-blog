@@ -25,11 +25,12 @@ describe "server API", ->
     {title: "bla3", text: "Another post"}
   ]
 
-  beforeEach (done) ->
-    Post.bulkCreate(exPosts).success ->
-      Post.findAll().success (p) ->
-        posts = p
-        done()
+  loadPosts = (done) ->
+    Post.findAll().success (p) ->
+      posts = p
+      done()
+
+  beforeEach (done) -> Post.bulkCreate(exPosts).success -> loadPosts(done)
 
   describe "GET /posts", ->
     getPosts = (callback) -> request "#{API_BASE}/posts", callback
@@ -50,22 +51,23 @@ describe "server API", ->
         expect(postIds).to.eql(postIds.sort())
         done()
 
-  # describe "POST /post", ->
-  #   postData = {title: 'bla', text: 'blablabla'}
-  #   postPost = (callback) -> request.post "#{API_BASE}/post", form: postData, callback
+  describe "POST /post", ->
+    postData = {title: "new post", text: "blablabla"}
+    postPost = (callback) -> request.post "#{API_BASE}/post", form: postData, callback
 
-  #   it "creates a new post", (done) ->
-  #     postLengthBefore = posts.length
-  #     postPost (error, response, body) ->
-  #       expect(posts).to.have.length(postLengthBefore + 1)
-  #       done()
+    it "creates a new post", (done) ->
+      postLengthBefore = posts.length
+      postPost (error, response, body) ->
+        loadPosts ->
+          expect(posts).to.have.length(postLengthBefore + 1)
+          done()
 
-  #   it "assigns the correct post data", (done) ->
-  #     newPostIndex = posts.length
-  #     postPost (error, response, body) ->
-  #       expect(posts[newPostIndex].title).to.eql(postData.title)
-  #       expect(posts[newPostIndex].text).to.eql(postData.text)
-  #       done()
+    it "assigns the correct post data", (done) ->
+      postPost (error, response, body) ->
+        Post.find(where: {title: postData.title}).success (post) ->
+          expect(post.title).to.eql postData.title
+          expect(post.text).to.eql  postData.text
+          done()
 
   # describe "PUT /post/:id", ->
   #   putData = {title: 'bla', text: 'blablabla'}
