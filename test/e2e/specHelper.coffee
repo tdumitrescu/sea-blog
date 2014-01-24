@@ -16,7 +16,7 @@ specSetup = (done) -> db.init -> Post.bulkCreate(exPosts).success -> done()
 passThrough = (req, res, next) -> next()
 
 handleSpecRequests = (req, res, next) ->
-  if req.path is "/_spec/initdb"
+  if req.path is "/_spec/setup"
     specSetup -> res.send 200
   else
     next()

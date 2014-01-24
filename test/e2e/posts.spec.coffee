@@ -1,9 +1,9 @@
 "use strict"
 
-initDB = -> browser().navigateTo "/_spec/initdb"
+setupServer = -> browser().navigateTo "/_spec/setup"
 
 describe "blog post interaction", ->
-  beforeEach initDB
+  beforeEach setupServer
 
   describe "index", ->
     beforeEach -> browser().navigateTo "/"
