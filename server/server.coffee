@@ -6,8 +6,9 @@ express = require 'express'
 http    = require 'http'
 path    = require 'path'
 
-db  = require "./db"
-api = require "./api"
+db         = require "./db"
+api        = require "./api"
+specHelper = require "../test/e2e/specHelper"
 
 app = module.exports = express()
 
@@ -22,6 +23,7 @@ app.use express.logger('dev')
 app.use express.bodyParser()
 app.use express.methodOverride()
 app.use express.static(assetsPath)
+app.use specHelper
 app.use app.router
 
 # development only
@@ -43,11 +45,6 @@ app.post   "/api/post",     api.addPost
 app.put    "/api/post/:id", api.editPost
 app.delete "/api/post/:id", api.deletePost
 app.get    "/api/*",        (req, res) -> res.send 'Not found', 404
-
-if process.env.NODE_ENV is "test"
-  specHelper = require "../test/e2e/specHelper"
-  app.get "/_spec/initdb", specHelper.initDB
-app.get "/_spec/*", (req, res) -> res.send 'Not found', 404
 
 # serve index for all other routes
 app.get '*', (req, res) -> res.sendfile "#{assetsPath}/index.html"
