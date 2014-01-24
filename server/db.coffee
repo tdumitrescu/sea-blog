@@ -3,7 +3,7 @@ class Connection
     @attrs   = attrs
     @testEnv = @attrs.testEnv? and @attrs.testEnv
 
-    console.log "initializing DB connection for #{@attrs.dbName}"
+    console.log "Initializing DB connection for #{@attrs.dbName}"
 
     Sequelize = require "sequelize"
     @connection = new Sequelize @attrs.dbName, @attrs.user, @attrs.password, @attrs.options

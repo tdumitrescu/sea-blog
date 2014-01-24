@@ -1,4 +1,4 @@
-# server-side API for data manipulation to be exposed only in test env
+# server-side API for data manipulation exposed only in test env
 
 Path       = require 'path'
 serverPath = Path.join(__dirname, '..', '..', 'server')
@@ -11,5 +11,14 @@ exPosts = [
   {title: "bla3", text: "Another post"}
 ]
 
-exports.initDB = (req, res) ->
-  db.init -> Post.bulkCreate(exPosts).success -> res.send 200
+specSetup = (done) -> db.init -> Post.bulkCreate(exPosts).success -> done()
+
+passThrough = (req, res, next) -> next()
+
+handleSpecRequests = (req, res, next) ->
+  if req.path is "/_spec/initdb"
+    specSetup -> res.send 200
+  else
+    next()
+
+module.exports = if process.env.NODE_ENV is "test" then handleSpecRequests else passThrough
