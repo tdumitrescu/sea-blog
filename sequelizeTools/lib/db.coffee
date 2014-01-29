@@ -16,7 +16,8 @@ class Connection
   @default: ->
     @_default ||= (
       dbEnv = @chooseEnv()
-      envConfig = (require "./config/database").DBConfig[dbEnv] ||
+      configPath = require.resolve(require("path").resolve("server/config/database"))
+      envConfig = (require configPath).DBConfig[dbEnv] ||
         throw "No database configuration defined for environment '#{dbEnv}'."
       envConfig.testEnv = true if dbEnv is "test"
       new Connection(envConfig))

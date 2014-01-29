@@ -1,5 +1,5 @@
 Sequelize = require "sequelize"
-db        = require "./db"
+{db}      = require "../sequelizeTools"
 
 exports.Post = db.default().connection.define "post",
   title: Sequelize.STRING,

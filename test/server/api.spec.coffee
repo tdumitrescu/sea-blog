@@ -6,9 +6,10 @@ expect  = require 'expect.js'
 
 process.env.NODE_ENV = "test"
 
-serverPath = path.join(__dirname, '..', '..', 'server')
+basePath   = path.join(__dirname, '..', '..')
+serverPath = path.join(basePath, 'server')
 server     = require "#{serverPath}/server"
-db         = require "#{serverPath}/db"
+{db}       = require "#{basePath}/sequelizeTools"
 {Post}     = require "#{serverPath}/models"
 PORT       = 3434
 API_BASE   = "http://localhost:#{PORT}/api"

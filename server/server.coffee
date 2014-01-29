@@ -5,10 +5,10 @@
 express = require 'express'
 http    = require 'http'
 path    = require 'path'
+api     = require "./api"
 
-db         = require "./db"
-api        = require "./api"
-specHelper = require "../test/e2e/specHelper"
+{db, specHelper} = require "../sequelizeTools"
+specHelper.registerHandlers(require "../test/requestHandlers")
 
 app = module.exports = express()
 
