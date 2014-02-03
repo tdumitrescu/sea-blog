@@ -10,4 +10,4 @@ exPosts = [
 ]
 
 module.exports =
-  specSetup: (done) -> db.init -> Post.bulkCreate(exPosts).success -> done()
+  create_posts: (req, res, done) -> db.init -> Post.bulkCreate(exPosts).success -> done()

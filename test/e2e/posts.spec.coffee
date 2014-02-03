@@ -1,6 +1,6 @@
 "use strict"
 
-setupServer = -> browser().navigateTo "/_spec/setup"
+setupServer = -> browser().navigateTo "/_test/create_posts"
 
 describe "blog post interaction", ->
   beforeEach setupServer

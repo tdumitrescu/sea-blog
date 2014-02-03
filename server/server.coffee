@@ -2,13 +2,14 @@
 # Module dependencies
 #
 
-express = require 'express'
-http    = require 'http'
-path    = require 'path'
-api     = require "./api"
+express      = require 'express'
+http         = require 'http'
+path         = require 'path'
+testRequests = require 'test-requests'
 
-{db, specHelper} = require "../sequelizeTools"
-specHelper.registerHandlers(require "../test/requestHandlers")
+api  = require "./api"
+{db} = require "../sequelizeTools"
+testRequests.registerHandlers(require "../test/requestHandlers")
 
 app = module.exports = express()
 
@@ -23,7 +24,7 @@ app.use express.logger('dev')
 app.use express.bodyParser()
 app.use express.methodOverride()
 app.use express.static(assetsPath)
-app.use specHelper
+app.use testRequests
 app.use app.router
 
 # development only
