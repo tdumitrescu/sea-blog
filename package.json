@@ -35,5 +35,8 @@
     "request": "~2.27.0",
     "sequelize": "~1.7.0-beta8",
     "pg": "~2.11.0"
+  },
+  "devDependencies": {
+    "test-requests": "0.0.1"
   }
 }
