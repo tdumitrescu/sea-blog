@@ -1,6 +1,6 @@
 Path       = require 'path'
 serverPath = Path.join(__dirname, '..', 'server')
-{db}       = require "../sequelizeTools"
+{db}       = require "../sequelize-tools"
 {Post}     = require "#{serverPath}/models"
 
 exPosts = [

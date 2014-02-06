@@ -8,7 +8,7 @@ path         = require 'path'
 testRequests = require 'test-requests'
 
 api  = require "./api"
-{db} = require "../sequelizeTools"
+{db} = require "../sequelize-tools"
 testRequests.registerHandlers(require "../test/requestHandlers")
 
 app = module.exports = express()
