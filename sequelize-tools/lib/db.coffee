@@ -1,3 +1,6 @@
+Path      = require "path"
+Sequelize = require "sequelize"
+
 class Connection
   constructor: (attrs) ->
     @attrs   = attrs
@@ -5,7 +8,6 @@ class Connection
 
     console.log "Initializing DB connection for #{@attrs.dbName}"
 
-    Sequelize = require "sequelize"
     @connection = new Sequelize @attrs.dbName, @attrs.user, @attrs.password, @attrs.options
     @connection.authenticate().complete (err) =>
       if err?
@@ -16,7 +18,7 @@ class Connection
   @default: ->
     @_default ||= (
       dbEnv = @chooseEnv()
-      configPath = require.resolve(require("path").resolve("server/config/database"))
+      configPath = require.resolve(Path.resolve("server/config/database"))
       envConfig = (require configPath).DBConfig[dbEnv] ||
         throw "No database configuration defined for environment '#{dbEnv}'."
       envConfig.testEnv = true if dbEnv is "test"
