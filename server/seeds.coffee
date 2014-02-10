@@ -1,4 +1,4 @@
-{db}   = require "../sequelize-tools"
+{db}   = require "sequelize-tools"
 {Post} = require "./models"
 
 seedPosts = 

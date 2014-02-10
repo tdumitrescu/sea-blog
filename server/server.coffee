@@ -2,13 +2,13 @@
 # Module dependencies
 #
 
-express      = require 'express'
-http         = require 'http'
-path         = require 'path'
-testRequests = require 'test-requests'
+express      = require "express"
+http         = require "http"
+path         = require "path"
+testRequests = require "test-requests"
+{db}         = require "sequelize-tools"
+api          = require "./api"
 
-api  = require "./api"
-{db} = require "../sequelize-tools"
 testRequests.registerHandlers(require "../test/requestHandlers")
 
 app = module.exports = express()
