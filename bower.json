@@ -14,12 +14,12 @@
     "bootstrap-less": "~2.3.2",
     "bootstrap-less-themes": "https://github.com/angular-brunch/bootstrap-less-themes.git",
     "angular-bootstrap": "~0.5.0",
-    "angular": "1.2.1",
-    "angular-route": "1.2.1",
-    "angular-sanitize": "1.2.1",
-    "angular-resource": "1.2.1",
-    "angular-cookies": "1.2.1",
-    "angular-mocks": "1.2.1"
+    "angular": "1.2.12",
+    "angular-route": "1.2.12",
+    "angular-sanitize": "1.2.12",
+    "angular-resource": "1.2.12",
+    "angular-cookies": "1.2.12",
+    "angular-mocks": "1.2.12"
   },
   "overrides": {
     "bootstrap-less": {
