@@ -1,13 +1,14 @@
 'use strict'
 
-### Controllers ###
+class IndexCtrl
+  @$inject:    ['$scope', '$http']
+  constructor: (@$scope, @$http) ->
+    $http.get("/api/posts")
+      .success (data) => @$scope.posts = data.posts
 
 angular.module('blogApp.controllers', [])
 
-.controller('IndexCtrl', ["$scope", "$http", ($scope, $http) ->
-  $http.get("/api/posts")
-    .success (data) -> $scope.posts = data.posts
-  ])
+.controller('IndexCtrl', IndexCtrl)
 
 .controller('AddPostCtrl', ["$scope", "$http", "$location", ($scope, $http, $location) ->
   $scope.form = {}
