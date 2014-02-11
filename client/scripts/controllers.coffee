@@ -1,21 +1,28 @@
 'use strict'
 
-class IndexCtrl
-  @$inject:    ['$scope', '$http']
-  constructor: (@$scope, @$http) ->
-    $http.get("/api/posts")
+class AppCtrl
+  @$inject: ["$scope", "$http", "$location", "$routeParams"]
+
+  constructor: (@$scope, @$http, @$location, @$routeParams) -> @initialize()
+  initialize: ->
+
+class IndexCtrl extends AppCtrl
+  initialize: ->
+    @$http.get("/api/posts")
       .success (data) => @$scope.posts = data.posts
+
+class AddPostCtrl extends AppCtrl
+  initialize: ->
+    @$scope.form = {}
+    @$scope.submitPost = =>
+      @$http.post("/api/post", @$scope.form)
+        .success (data) => @$location.path "/"
 
 angular.module('blogApp.controllers', [])
 
 .controller('IndexCtrl', IndexCtrl)
 
-.controller('AddPostCtrl', ["$scope", "$http", "$location", ($scope, $http, $location) ->
-  $scope.form = {}
-  $scope.submitPost = ->
-    $http.post("/api/post", $scope.form)
-      .success (data) -> $location.path "/"
-  ])
+.controller('AddPostCtrl', AddPostCtrl)
 
 .controller('ReadPostCtrl', ["$scope", "$http", "$routeParams", ($scope, $http, $routeParams) ->
   $http.get("/api/post/#{$routeParams.id}")
