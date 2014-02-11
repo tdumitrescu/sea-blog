@@ -1,10 +1,9 @@
 'use strict'
 
 class AppCtrl
-  @$inject: ["$scope", "$http", "$location", "$routeParams"]
-
+  @$inject:    ["$scope", "$http", "$location", "$routeParams"]
   constructor: (@$scope, @$http, @$location, @$routeParams) -> @initialize()
-  initialize: ->
+  initialize:  ->
 
 class IndexCtrl extends AppCtrl
   initialize: ->
@@ -18,36 +17,33 @@ class AddPostCtrl extends AppCtrl
       @$http.post("/api/post", @$scope.form)
         .success (data) => @$location.path "/"
 
-angular.module('blogApp.controllers', [])
+class ReadPostCtrl extends AppCtrl
+  initialize: ->
+    @$http.get("/api/post/#{@$routeParams.id}")
+      .success (data) => @$scope.post = data.post
 
-.controller('IndexCtrl', IndexCtrl)
+class EditPostCtrl extends AppCtrl
+  initialize: ->
+    @$scope.form = {}
+    @$http.get("/api/post/#{@$routeParams.id}")
+      .success (data) => @$scope.form = data.post
 
-.controller('AddPostCtrl', AddPostCtrl)
+    @$scope.editPost = =>
+      @$http.put("/api/post/#{@$routeParams.id}", @$scope.form)
+        .success (data) => @$location.url "/readPost/#{@$routeParams.id}"
 
-.controller('ReadPostCtrl', ["$scope", "$http", "$routeParams", ($scope, $http, $routeParams) ->
-  $http.get("/api/post/#{$routeParams.id}")
-    .success (data) -> $scope.post = data.post
-  ])
+class DeletePostCtrl extends AppCtrl
+  initialize: ->
+    @$http.get("/api/post/#{@$routeParams.id}")
+      .success (data) => @$scope.post = data.post
 
-.controller('EditPostCtrl', ["$scope", "$http", "$location", "$routeParams",
-  ($scope, $http, $location, $routeParams) ->
-    $scope.form = {}
-    $http.get("/api/post/#{$routeParams.id}")
-      .success (data) -> $scope.form = data.post
+    @$scope.deletePost = =>
+      @$http.delete("/api/post/#{@$routeParams.id}")
+        .success (data) => @$location.url "/"
 
-    $scope.editPost = ->
-      $http.put("/api/post/#{$routeParams.id}", $scope.form)
-        .success (data) -> $location.url "/readPost/#{$routeParams.id}"
-  ])
-
-.controller('DeletePostCtrl', ["$scope", "$http", "$location", "$routeParams",
-  ($scope, $http, $location, $routeParams) ->
-    $http.get("/api/post/#{$routeParams.id}")
-      .success (data) -> $scope.post = data.post
-
-    $scope.deletePost = ->
-      $http.delete("/api/post/#{$routeParams.id}")
-        .success (data) -> $location.url "/"
-
-    $scope.home = -> $location.url "/"
-  ])
+angular.module("blogApp.controllers", [])
+  .controller("IndexCtrl",      IndexCtrl     )
+  .controller("AddPostCtrl",    AddPostCtrl   )
+  .controller("ReadPostCtrl",   ReadPostCtrl  )
+  .controller("EditPostCtrl",   EditPostCtrl  )
+  .controller("DeletePostCtrl", DeletePostCtrl)
