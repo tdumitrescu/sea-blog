@@ -1,3 +1,3 @@
 module.exports = {
-  db: require('./lib/db')
+  db: require('./lib/dbConnection')
 };
