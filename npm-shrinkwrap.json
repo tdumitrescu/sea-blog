@@ -2189,9 +2189,9 @@
       }
     },
     "expect.js": {
-      "version": "0.2.0",
-      "from": "expect.js@0.2.0",
-      "resolved": "https://registry.npmjs.org/expect.js/-/expect.js-0.2.0.tgz"
+      "version": "0.3.1",
+      "from": "expect.js@0.3.1",
+      "resolved": "https://registry.npmjs.org/expect.js/-/expect.js-0.3.1.tgz"
     },
     "request": {
       "version": "2.27.0",
