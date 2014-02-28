@@ -9,7 +9,6 @@
     "url": ""
   },
   "scripts": {
-    "preinstall": "npm install ./sequelize-tools/",
     "start": "node_modules/.bin/brunch watch --server",
     "pretest": "node_modules/.bin/brunch build",
     "test": "node_modules/.bin/mocha test/server && node_modules/.bin/karma start test/karma.conf.js && node_modules/.bin/karma start test/karma-e2e.conf.js"
@@ -35,6 +34,7 @@
     "expect.js": "~0.3.1",
     "request": "~2.27.0",
     "sequelize": "~1.7.0-beta8",
+    "sequelize-tools": "~0.0.1",
     "pg": "~2.11.0"
   },
   "devDependencies": {

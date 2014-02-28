@@ -2107,9 +2107,8 @@
       "resolved": "https://registry.npmjs.org/karma-coffee-preprocessor/-/karma-coffee-preprocessor-0.0.4.tgz"
     },
     "karma-ng-scenario": {
-      "version": "0.0.2",
-      "from": "karma-ng-scenario@0.0.2",
-      "resolved": "https://registry.npmjs.org/karma-ng-scenario/-/karma-ng-scenario-0.0.2.tgz"
+      "version": "0.1.0",
+      "from": "karma-ng-scenario@0.1.0"
     },
     "mocha": {
       "version": "1.14.0",
@@ -2398,6 +2397,11 @@
           "from": "node-uuid@~1.4.1"
         }
       }
+    },
+    "sequelize-tools": {
+      "version": "0.0.1",
+      "from": "sequelize-tools@0.0.1",
+      "resolved": "https://registry.npmjs.org/sequelize-tools/-/sequelize-tools-0.0.1.tgz"
     },
     "pg": {
       "version": "2.11.0",
