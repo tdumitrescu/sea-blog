@@ -2399,9 +2399,9 @@
       }
     },
     "sequelize-tools": {
-      "version": "0.0.1",
-      "from": "sequelize-tools@0.0.1",
-      "resolved": "https://registry.npmjs.org/sequelize-tools/-/sequelize-tools-0.0.1.tgz"
+      "version": "0.0.2",
+      "from": "sequelize-tools@0.0.2",
+      "resolved": "https://registry.npmjs.org/sequelize-tools/-/sequelize-tools-0.0.2.tgz"
     },
     "pg": {
       "version": "2.11.0",
